@@ -24,6 +24,19 @@ buttons.forEach((button) => {
   });
 });
 
+document.addEventListener("keydown", function (e) {
+  let key = e.key;
+  if (key >= "0" && key <= "9") {
+    displayInput.value += key;
+  } else if (key === "+" || key === "-" || key === "*" || key === "/") {
+    displayInput.value += key;
+  } else if (key === ".") {
+    checkForDecimal();
+  } else if (key === "Enter" || key === "=") {
+    displayInput.value = eval(displayInput.value);
+  }
+});
+
 const checkForDecimal = function () {
   if (allowDecimal) {
     displayInput.value += ".";
