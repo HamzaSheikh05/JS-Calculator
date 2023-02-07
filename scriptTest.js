@@ -8,6 +8,7 @@ let allowDecimal = true;
 buttons.forEach((button) => {
   button.addEventListener("click", (e) => {
     let val = e.target.value;
+
     if (val === "AC") {
       displayInput.value = "";
       allowDecimal = true;
@@ -22,7 +23,11 @@ buttons.forEach((button) => {
     } else if (val === ".") {
       checkForDecimal();
     } else {
-      displayInput.value += val;
+      if (displayInput.value === "Error") {
+        displayInput.value = val;
+      } else {
+        displayInput.value += val;
+      }
     }
   });
 });
@@ -31,11 +36,12 @@ document.addEventListener("keydown", function (e) {
   let key = e.key;
   if (key >= "0" && key <= "9") {
     displayInput.value += key;
+    console.log(typeof displayInput.value);
   } else if (key === "+" || key === "-" || key === "*" || key === "/") {
     displayInput.value += key;
   } else if (key === ".") {
     checkForDecimal();
-  } else if (key === "Enter" || key === "=") {
+  } else if (key === "=") {
     displayInput.value = eval(displayInput.value);
   } else if (key === "Delete" || key === "Backspace") {
     displayInput.value = displayInput.value.slice(0, -1);
@@ -56,6 +62,7 @@ const checkForDecimal = function () {
       );
       if (lastOperatorIndex > displayInput.value.lastIndexOf(".")) {
         allowDecimal = true;
+        displayInput.value += ".";
       }
     } else return;
   }
