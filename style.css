@@ -32,6 +32,11 @@
   cursor: pointer;
   margin: 10px;
   background: transparent;
+  border: 0.5px solid rgba(255, 255, 255, 0.1);
+}
+
+.calculator form input[type="text"] {
+  border: none;
 }
 
 form .display {
