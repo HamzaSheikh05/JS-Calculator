@@ -16,6 +16,9 @@ buttons.forEach((button) => {
       allowDecimal = true;
     } else if (val === "=") {
       displayInput.value = eval(displayInput.value);
+      if (displayInput.value === "Infinity" || displayInput.value === "NaN") {
+        displayInput.value = "Error";
+      }
     } else if (val === ".") {
       checkForDecimal();
     } else {
