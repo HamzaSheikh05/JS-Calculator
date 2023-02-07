@@ -17,24 +17,28 @@ buttons.forEach((button) => {
     } else if (val === "=") {
       displayInput.value = eval(displayInput.value);
     } else if (val === ".") {
-      if (allowDecimal) {
-        displayInput.value += ".";
-        allowDecimal = false;
-      } else {
-        if (displayInput.value.includes(".")) {
-          let lastOperatorIndex = Math.max(
-            displayInput.value.lastIndexOf("+"),
-            displayInput.value.lastIndexOf("-"),
-            displayInput.value.lastIndexOf("*"),
-            displayInput.value.lastIndexOf("/")
-          );
-          if (lastOperatorIndex > displayInput.value.lastIndexOf(".")) {
-            allowDecimal = true;
-          }
-        } else return;
-      }
+      checkForDecimal();
     } else {
       displayInput.value += val;
     }
   });
 });
+
+const checkForDecimal = function () {
+  if (allowDecimal) {
+    displayInput.value += ".";
+    allowDecimal = false;
+  } else {
+    if (displayInput.value.includes(".")) {
+      let lastOperatorIndex = Math.max(
+        displayInput.value.lastIndexOf("+"),
+        displayInput.value.lastIndexOf("-"),
+        displayInput.value.lastIndexOf("*"),
+        displayInput.value.lastIndexOf("/")
+      );
+      if (lastOperatorIndex > displayInput.value.lastIndexOf(".")) {
+        allowDecimal = true;
+      }
+    } else return;
+  }
+};
