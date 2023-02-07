@@ -10,8 +10,10 @@ buttons.forEach((button) => {
     let val = e.target.value;
     if (val === "AC") {
       displayInput.value = "";
+      allowDecimal = true;
     } else if (val === "DE") {
       displayInput.value = displayInput.value.slice(0, -1);
+      allowDecimal = true;
     } else if (val === "=") {
       displayInput.value = eval(displayInput.value);
     } else if (val === ".") {
