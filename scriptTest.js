@@ -34,6 +34,8 @@ document.addEventListener("keydown", function (e) {
     checkForDecimal();
   } else if (key === "Enter" || key === "=") {
     displayInput.value = eval(displayInput.value);
+  } else if (key === "Delete" || key === "Backspace") {
+    displayInput.value = displayInput.value.slice(0, -1);
   }
 });
 
