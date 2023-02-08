@@ -1,8 +1,8 @@
-const displayInput = document.querySelector("input[name='display']");
-const buttons = document.querySelectorAll("input[type='button']");
-const deleteBtn = document.querySelector(".delete");
-const clearBtn = document.querySelector(".clear");
-const decimalPoint = document.querySelector(".decimal");
+let displayInput = document.querySelector("input[name='display']");
+let buttons = document.querySelectorAll("input[type='button']");
+let deleteBtn = document.querySelector(".delete");
+let clearBtn = document.querySelector(".clear");
+let decimalPoint = document.querySelector(".decimal");
 let allowDecimal = true;
 
 buttons.forEach((button) => {
