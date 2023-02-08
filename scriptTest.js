@@ -59,7 +59,7 @@ function errorHandler() {
   if (
     displayInput.value === "Infinity" ||
     displayInput.value === "NaN" ||
-    displayInput.value === "Undefined" ||
+    displayInput.value === "undefined" ||
     displayInput.value === "Error"
   ) {
     document.getElementById("btnEq").disabled = true;
