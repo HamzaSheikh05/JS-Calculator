@@ -19,15 +19,14 @@ function buttonPress() {
         allowDecimal = true;
         return (displayInput.value = "");
       } else if (val === "DE") {
-        if (displayInput.value[displayInput.value.length - 1] == ".") {
-          allowDecimal = true;
-        }
-        displayInput.value = displayInput.value.slice(0, -1);
+        checkDelete();
       } else if (val === "=") {
         displayInput.value = eval(displayInput.value);
         errorHandler();
       } else if (val === ".") {
         checkForDecimal();
+      } else if (val == "+" || val == "-" || val == "*" || val == "/") {
+        checkOperator(val);
       } else {
         if (displayInput.value === "Error") {
           return (displayInput.value = val);
@@ -40,6 +39,22 @@ function buttonPress() {
   });
 }
 
+const checkDelete = function () {
+  if (displayInput.value[displayInput.value.length - 1] == ".") {
+    allowDecimal = true;
+  }
+  displayInput.value = displayInput.value.slice(0, -1);
+};
+
+const checkOperator = function (val) {
+  let lastVal = displayInput.value.slice(-1);
+  if (lastVal == "+" || lastVal == "-" || lastVal == "*" || lastVal == "/") {
+    return;
+  } else {
+    displayInput.value += val;
+  }
+};
+
 function errorHandler() {
   if (
     displayInput.value === "Infinity" ||
@@ -48,7 +63,7 @@ function errorHandler() {
     displayInput.value === "Error"
   ) {
     document.getElementById("btnEq").disabled = true;
-    return (displayInput.value = "Error");
+    return (displayInput.value = errorMessage);
   }
 }
 
@@ -63,18 +78,9 @@ function keyPress() {
       checkForDecimal();
     } else if (key === "=") {
       displayInput.value = eval(displayInput.value);
-      if (
-        displayInput.value === "Infinity" ||
-        displayInput.value === "NaN" ||
-        displayInput.value === "Undefined"
-      ) {
-        return (displayInput.value = errorMessage);
-      }
+      errorHandler();
     } else if (key === "Delete" || key === "Backspace") {
-      if (displayInput.value[displayInput.value.length - 1] == ".") {
-        allowDecimal = true;
-      }
-      displayInput.value = displayInput.value.slice(0, -1);
+      checkDelete();
     }
   });
 }
