@@ -6,39 +6,65 @@ const decimalPoint = document.querySelector(".decimal");
 let allowDecimal = true;
 
 function main() {
+  buttonPress();
+  keyPress();
+}
+
+function buttonPress() {
   buttons.forEach((button) => {
     button.addEventListener("click", (e) => {
-      let value = e.target.value;
-      if (value === "AC") {
-        displayInput.value = "";
+      let val = e.target.value;
+      console.log(e);
+      if (val === "AC") {
         allowDecimal = true;
-      } else if (value === "DE") {
-        displayInput.value = displayInput.value.slice(0, -1);
+        return (displayInput.value = "");
+      } else if (val === "DE") {
         allowDecimal = true;
-      } else if (value === "=") {
-        displayInput.value = eval(displayInput.value);
-
-        if (displayInput.value === "Infinity" || displayInput.value === "NaN") {
-          displayInput.value = "Error";
+        return (displayInput.value = displayInput.value.slice(0, -1));
+      } else if (val === "=") {
+        if (
+          displayInput.value === "Infinity" ||
+          displayInput.value === "NaN" ||
+          displayInput.value === "Undefined"
+        ) {
+          return (displayInput.value = "Error");
+        } else {
+          return (displayInput.value = eval(displayInput.value));
+        }
+      } else if (val === ".") {
+        checkForDecimal();
+      } else {
+        if (displayInput.value === "Error") {
+          return (displayInput.value = val);
+        } else {
+          return (displayInput.value += val);
         }
       }
     });
   });
 }
 
-function keyboardPress() {
+function keyPress() {
   document.addEventListener("keydown", function (e) {
     let key = e.key;
     if (key >= "0" && key <= "9") {
-      displayInput.value += key;
+      return (displayInput.value += key);
     } else if (key === "+" || key === "-" || key === "*" || key === "/") {
-      displayInput.value += key;
+      return (displayInput.value += key);
     } else if (key === ".") {
       checkForDecimal();
-    } else if (key === "Enter" || key === "=") {
-      displayInput.value = eval(displayInput.value);
+    } else if (key === "=") {
+      if (
+        displayInput.value === "Infinity" ||
+        displayInput.value === "NaN" ||
+        displayInput.value === "Undefined"
+      ) {
+        return (displayInput.value = "Error");
+      } else {
+        return (displayInput.value = eval(displayInput.value));
+      }
     } else if (key === "Delete" || key === "Backspace") {
-      displayInput.value = displayInput.value.slice(0, -1);
+      return (displayInput.value = displayInput.value.slice(0, -1));
     }
   });
 }
@@ -63,4 +89,3 @@ const checkForDecimal = function () {
 };
 
 main();
-keyboardPress();
