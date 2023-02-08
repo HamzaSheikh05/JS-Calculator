@@ -32,6 +32,7 @@ function buttonPress() {
         if (displayInput.value === "Error") {
           return (displayInput.value = val);
         } else {
+          document.getElementById("btnEq").disabled = false;
           return (displayInput.value += val);
         }
       }
@@ -46,6 +47,7 @@ function errorHandler() {
     displayInput.value === "Undefined" ||
     displayInput.value === "Error"
   ) {
+    document.getElementById("btnEq").disabled = true;
     return (displayInput.value = "Error");
   }
 }
