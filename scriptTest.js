@@ -1,55 +1,83 @@
-let displayInput = document.querySelector("input[name='display']");
-let buttons = document.querySelectorAll("input[type='button']");
-let deleteBtn = document.querySelector(".delete");
-let clearBtn = document.querySelector(".clear");
-let decimalPoint = document.querySelector(".decimal");
+const displayInput = document.querySelector("input[name='display']");
+const buttons = document.querySelectorAll("input[type='button']");
+const deleteBtn = document.querySelector(".delete");
+const clearBtn = document.querySelector(".clear");
+const decimalPoint = document.querySelector(".decimal");
 let allowDecimal = true;
+const errorMessage = "Error";
 
-buttons.forEach((button) => {
-  button.addEventListener("click", (e) => {
-    let val = e.target.value;
+function main() {
+  buttonPress();
+  keyPress();
+}
 
-    if (val === "AC") {
-      displayInput.value = "";
-      allowDecimal = true;
-    } else if (val === "DE") {
-      displayInput.value = displayInput.value.slice(0, -1);
-      allowDecimal = true;
-    } else if (val === "=") {
-      displayInput.value = eval(displayInput.value);
-      if (displayInput.value === "Infinity" || displayInput.value === "NaN") {
-        displayInput.value = "Error";
-      }
-    } else if (val === ".") {
-      checkForDecimal();
-    } else {
-      if (displayInput.value === "Error") {
-        displayInput.value = val;
+function buttonPress() {
+  buttons.forEach((button) => {
+    button.addEventListener("click", (e) => {
+      let val = e.target.value;
+      if (val === "AC") {
+        allowDecimal = true;
+        return (displayInput.value = "");
+      } else if (val === "DE") {
+        if (displayInput.value[displayInput.value.length - 1] == ".") {
+          allowDecimal = true;
+        }
+        displayInput.value = displayInput.value.slice(0, -1);
+      } else if (val === "=") {
+        displayInput.value = eval(displayInput.value);
+        errorHandler();
+      } else if (val === ".") {
+        checkForDecimal();
       } else {
-        displayInput.value += val;
+        if (displayInput.value === "Error") {
+          return (displayInput.value = val);
+        } else {
+          document.getElementById("btnEq").disabled = false;
+          return (displayInput.value += val);
+        }
       }
+    });
+  });
+}
+
+function errorHandler() {
+  if (
+    displayInput.value === "Infinity" ||
+    displayInput.value === "NaN" ||
+    displayInput.value === "Undefined" ||
+    displayInput.value === "Error"
+  ) {
+    document.getElementById("btnEq").disabled = true;
+    return (displayInput.value = "Error");
+  }
+}
+
+function keyPress() {
+  document.addEventListener("keydown", function (e) {
+    let key = e.key;
+    if (key >= "0" && key <= "9") {
+      return (displayInput.value += key);
+    } else if (key === "+" || key === "-" || key === "*" || key === "/") {
+      return (displayInput.value += key);
+    } else if (key === ".") {
+      checkForDecimal();
+    } else if (key === "=") {
+      displayInput.value = eval(displayInput.value);
+      if (
+        displayInput.value === "Infinity" ||
+        displayInput.value === "NaN" ||
+        displayInput.value === "Undefined"
+      ) {
+        return (displayInput.value = errorMessage);
+      }
+    } else if (key === "Delete" || key === "Backspace") {
+      if (displayInput.value[displayInput.value.length - 1] == ".") {
+        allowDecimal = true;
+      }
+      displayInput.value = displayInput.value.slice(0, -1);
     }
   });
-});
-
-document.addEventListener("keydown", function (e) {
-  let key = e.key;
-  if (key >= "0" && key <= "9") {
-    displayInput.value += key;
-    console.log(typeof displayInput.value);
-  } else if (key === "+" || key === "-" || key === "*" || key === "/") {
-    displayInput.value += key;
-  } else if (key === ".") {
-    checkForDecimal();
-  } else if (key === "=") {
-    displayInput.value = eval(displayInput.value);
-    if (displayInput.value === "Infinity" || displayInput.value === "NaN") {
-      displayInput.value = "Error";
-    }
-  } else if (key === "Delete" || key === "Backspace") {
-    displayInput.value = displayInput.value.slice(0, -1);
-  }
-});
+}
 
 const checkForDecimal = function () {
   if (allowDecimal) {
@@ -65,8 +93,9 @@ const checkForDecimal = function () {
       );
       if (lastOperatorIndex > displayInput.value.lastIndexOf(".")) {
         allowDecimal = true;
-        displayInput.value += ".";
       }
     } else return;
   }
 };
+
+main();
