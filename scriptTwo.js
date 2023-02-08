@@ -56,8 +56,6 @@ function errorHandler() {
   ) {
     document.getElementById("btnEq").disabled = true;
     return (displayInput.value = "Error");
-  } else if (displayInput.value === "undefined") {
-    displayInput.value = "";
   }
 }
 
