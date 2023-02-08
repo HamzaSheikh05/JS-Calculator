@@ -43,6 +43,9 @@ document.addEventListener("keydown", function (e) {
     checkForDecimal();
   } else if (key === "=") {
     displayInput.value = eval(displayInput.value);
+    if (displayInput.value === "Infinity" || displayInput.value === "NaN") {
+      displayInput.value = "Error";
+    }
   } else if (key === "Delete" || key === "Backspace") {
     displayInput.value = displayInput.value.slice(0, -1);
   }
