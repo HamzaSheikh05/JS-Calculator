@@ -5,6 +5,11 @@ const clearBtn = document.querySelector(".clear");
 const decimalPoint = document.querySelector(".decimal");
 let allowDecimal = true;
 const errorMessage = "Error";
+document.getElementById("add").disabled = true;
+document.getElementById("div").disabled = true;
+document.getElementById("mult").disabled = true;
+document.getElementById("btnEq").disabled = true;
+displayInput.value = "";
 
 function main() {
   buttonPress();
@@ -33,6 +38,9 @@ function buttonPress() {
           return (displayInput.value = val);
         } else {
           document.getElementById("btnEq").disabled = false;
+          document.getElementById("add").disabled = false;
+          document.getElementById("div").disabled = false;
+          document.getElementById("mult").disabled = false;
           return (displayInput.value += val);
         }
       }
