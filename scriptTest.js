@@ -73,7 +73,7 @@ function keyPress() {
     if (key >= "0" && key <= "9") {
       return (displayInput.value += key);
     } else if (key === "+" || key === "-" || key === "*" || key === "/") {
-      return (displayInput.value += key);
+      checkOperator(key);
     } else if (key === ".") {
       checkForDecimal();
     } else if (key === "=") {
