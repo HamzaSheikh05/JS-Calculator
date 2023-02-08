@@ -4,6 +4,7 @@ const deleteBtn = document.querySelector(".delete");
 const clearBtn = document.querySelector(".clear");
 const decimalPoint = document.querySelector(".decimal");
 let allowDecimal = true;
+const errorMessage = "Error";
 
 function main() {
   buttonPress();
@@ -14,23 +15,17 @@ function buttonPress() {
   buttons.forEach((button) => {
     button.addEventListener("click", (e) => {
       let val = e.target.value;
-      console.log(e);
       if (val === "AC") {
         allowDecimal = true;
         return (displayInput.value = "");
       } else if (val === "DE") {
-        allowDecimal = true;
-        return (displayInput.value = displayInput.value.slice(0, -1));
-      } else if (val === "=") {
-        if (
-          displayInput.value === "Infinity" ||
-          displayInput.value === "NaN" ||
-          displayInput.value === "Undefined"
-        ) {
-          return (displayInput.value = "Error");
-        } else {
-          return (displayInput.value = eval(displayInput.value));
+        if (displayInput.value[displayInput.value.length - 1] == ".") {
+          allowDecimal = true;
         }
+        displayInput.value = displayInput.value.slice(0, -1);
+      } else if (val === "=") {
+        displayInput.value = eval(displayInput.value);
+        errorHandler();
       } else if (val === ".") {
         checkForDecimal();
       } else {
@@ -44,6 +39,17 @@ function buttonPress() {
   });
 }
 
+function errorHandler() {
+  if (
+    displayInput.value === "Infinity" ||
+    displayInput.value === "NaN" ||
+    displayInput.value === "Undefined" ||
+    displayInput.value === "Error"
+  ) {
+    return (displayInput.value = "Error");
+  }
+}
+
 function keyPress() {
   document.addEventListener("keydown", function (e) {
     let key = e.key;
@@ -54,14 +60,13 @@ function keyPress() {
     } else if (key === ".") {
       checkForDecimal();
     } else if (key === "=") {
+      displayInput.value = eval(displayInput.value);
       if (
         displayInput.value === "Infinity" ||
         displayInput.value === "NaN" ||
         displayInput.value === "Undefined"
       ) {
-        return (displayInput.value = "Error");
-      } else {
-        return (displayInput.value = eval(displayInput.value));
+        return (displayInput.value = errorMessage);
       }
     } else if (key === "Delete" || key === "Backspace") {
       return (displayInput.value = displayInput.value.slice(0, -1));
