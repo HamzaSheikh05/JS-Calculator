@@ -31,7 +31,13 @@ const errorHandler = function () {
 };
 
 const operate = function () {
-  displayInput.value = eval(displayInput.value);
+  //displayInput.value = eval(displayInput.value);
+  let result = eval(displayInput.value);
+  result = parseFloat(result).toFixed(4);
+  allowDecimal = false;
+  displayInput.value = result;
+  console.log(displayInput.value);
+  console.log(typeof displayInput.value);
   errorHandler();
 };
 
@@ -76,7 +82,6 @@ function buttonPress() {
   buttons.forEach((button) => {
     button.addEventListener("click", (e) => {
       inputValue = e.target.value;
-      console.log(inputValue);
 
       if (inputValue === "AC") {
         clear();
