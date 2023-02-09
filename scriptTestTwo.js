@@ -8,6 +8,7 @@ let allowDecimal = true;
 const errorMessage = "Error";
 
 const clear = function () {
+  allowDecimal = true;
   return (displayInput.value = "");
 };
 
@@ -31,14 +32,21 @@ const errorHandler = function () {
 };
 
 const operate = function () {
-  //displayInput.value = eval(displayInput.value);
-  let result = eval(displayInput.value);
-  result = parseFloat(result).toFixed(4);
-  allowDecimal = false;
-  displayInput.value = result;
-  console.log(displayInput.value);
-  console.log(typeof displayInput.value);
+  let result = math.evaluate(displayInput.value);
+  console.log(Number.isInteger(result));
+  if (Number.isInteger(result)) {
+    return (displayInput.value = result);
+  } else {
+    result = parseFloat(result).toFixed(2);
+    displayInput.value = result;
+  }
   errorHandler();
+  // let result = eval(displayInput.value);
+  // result = parseFloat(result).toFixed(4);
+  // allowDecimal = false;
+  // displayInput.value = result;
+  // console.log(displayInput.value);
+  // console.log(typeof displayInput.value);
 };
 
 const checkForDecimal = function () {
