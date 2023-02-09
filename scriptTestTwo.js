@@ -68,12 +68,12 @@ const checkForDecimal = function () {
   }
 };
 
-const checkOperator = function () {
+const checkOperator = function (operator) {
   let lastVal = displayInput.value.slice(-1);
   if (lastVal == "+" || lastVal == "-" || lastVal == "*" || lastVal == "/") {
     return;
   } else {
-    displayInput.value += inputValue;
+    displayInput.value += operator;
   }
 };
 
@@ -84,6 +84,7 @@ const resetDisplay = function () {
 const main = function () {
   resetDisplay();
   buttonPress();
+  keyPress();
 };
 
 function buttonPress() {
@@ -115,6 +116,23 @@ function buttonPress() {
         }
       }
     });
+  });
+}
+
+function keyPress() {
+  document.addEventListener("keydown", function (e) {
+    let key = e.key;
+    if (key >= "0" && key <= "9") {
+      return (displayInput.value += key);
+    } else if (key === "+" || key === "-" || key === "*" || key === "/") {
+      checkOperator(key);
+    } else if (key === ".") {
+      checkForDecimal();
+    } else if (key === "=") {
+      operate();
+    } else if (key === "Delete" || key === "Backspace") {
+      deleteInput();
+    }
   });
 }
 
