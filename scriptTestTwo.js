@@ -33,7 +33,6 @@ const errorHandler = function () {
 
 const operate = function () {
   let result = math.evaluate(displayInput.value);
-  console.log(Number.isInteger(result));
   if (Number.isInteger(result)) {
     return (displayInput.value = result);
   } else {
@@ -41,12 +40,6 @@ const operate = function () {
     displayInput.value = result;
   }
   errorHandler();
-  // let result = eval(displayInput.value);
-  // result = parseFloat(result).toFixed(4);
-  // allowDecimal = false;
-  // displayInput.value = result;
-  // console.log(displayInput.value);
-  // console.log(typeof displayInput.value);
 };
 
 const checkForDecimal = function () {
@@ -69,20 +62,28 @@ const checkForDecimal = function () {
 };
 
 const checkOperator = function (operator) {
-  let lastVal = displayInput.value.slice(-1);
-  if (lastVal == "+" || lastVal == "-" || lastVal == "*" || lastVal == "/") {
-    return;
+  if (displayInput.value === "Error") {
+    return (displayInput.value = operator);
   } else {
-    displayInput.value += operator;
+    let lastVal = displayInput.value.slice(-1);
+    if (lastVal == "+" || lastVal == "-" || lastVal == "*" || lastVal == "/") {
+      return;
+    } else {
+      displayInput.value += operator;
+    }
   }
 };
 
-const resetDisplay = function () {
-  return (displayInput.value = "");
+const afterErrorHandler = function (value) {
+  if (displayInput.value === "Error") {
+    return (displayInput.value = value);
+  } else {
+    document.getElementById("btnEq").disabled = false;
+    return (displayInput.value += value);
+  }
 };
 
 const main = function () {
-  resetDisplay();
   buttonPress();
   keyPress();
 };
@@ -108,12 +109,7 @@ function buttonPress() {
       ) {
         checkOperator(inputValue);
       } else {
-        if (displayInput.value === "Error") {
-          return (displayInput.value = inputValue);
-        } else {
-          document.getElementById("btnEq").disabled = false;
-          return (displayInput.value += inputValue);
-        }
+        afterErrorHandler(inputValue);
       }
     });
   });
@@ -123,7 +119,7 @@ function keyPress() {
   document.addEventListener("keydown", function (e) {
     let key = e.key;
     if (key >= "0" && key <= "9") {
-      return (displayInput.value += key);
+      afterErrorHandler(key);
     } else if (key === "+" || key === "-" || key === "*" || key === "/") {
       checkOperator(key);
     } else if (key === ".") {
@@ -135,9 +131,6 @@ function keyPress() {
     } else {
       if (displayInput.value === "Error") {
         return (displayInput.value = key);
-      } else {
-        document.getElementById("btnEq").disabled = false;
-        return (displayInput.value += key);
       }
     }
   });
