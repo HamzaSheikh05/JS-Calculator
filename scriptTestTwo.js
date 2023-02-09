@@ -132,6 +132,13 @@ function keyPress() {
       operate();
     } else if (key === "Delete" || key === "Backspace") {
       deleteInput();
+    } else {
+      if (displayInput.value === "Error") {
+        return (displayInput.value = key);
+      } else {
+        document.getElementById("btnEq").disabled = false;
+        return (displayInput.value += key);
+      }
     }
   });
 }
