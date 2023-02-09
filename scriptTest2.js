@@ -33,7 +33,6 @@ const errorHandler = function () {
 
 const operate = function () {
   let result = math.evaluate(displayInput.value);
-  console.log(Number.isInteger(result));
   if (Number.isInteger(result)) {
     return (displayInput.value = result);
   } else {
@@ -90,12 +89,7 @@ const afterErrorHandler = function (value) {
   }
 };
 
-const resetDisplay = function () {
-  return (displayInput.value = "");
-};
-
 const main = function () {
-  resetDisplay();
   buttonPress();
   keyPress();
 };
