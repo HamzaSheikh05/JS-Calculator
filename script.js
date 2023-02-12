@@ -27,7 +27,7 @@ const errorHandler = function () {
     displayInput.value === "-Infinity" ||
     displayInput.value === "Error"
   ) {
-    alert("Invalid Input");
+    alert("Syntax Error");
     clear();
   }
 };
@@ -75,7 +75,7 @@ const checkOperator = function (operator) {
   }
 };
 
-const addKeyPress = function (value) {
+const addKey = function (value) {
   return (displayInput.value += value);
 };
 
@@ -106,7 +106,7 @@ function buttonPress() {
       ) {
         checkOperator(inputValue);
       } else {
-        addKeyPress(inputValue);
+        addKey(inputValue);
       }
     });
   });
@@ -117,7 +117,7 @@ function keyPress() {
     let key = e.key;
 
     if (key >= "0" && key <= "9") {
-      addKeyPress(key);
+      addKey(key);
     } else if (key === "+" || key === "-" || key === "*" || key === "/") {
       checkOperator(key);
     } else if (key === ".") {
@@ -129,7 +129,7 @@ function keyPress() {
     } else if (e.shiftKey === true) {
       if (key === "(" || key === ")") {
         e.preventDefault();
-        addKeyPress(key);
+        addKey(key);
       }
     } else {
       if (displayInput.value === "Error") {
