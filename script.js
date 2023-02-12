@@ -24,10 +24,11 @@ const errorHandler = function () {
     displayInput.value === "Infinity" ||
     displayInput.value === "NaN" ||
     displayInput.value === "undefined" ||
+    displayInput.value === "-Infinity" ||
     displayInput.value === "Error"
   ) {
-    document.getElementById("btnEq").disabled = true;
-    return (displayInput.value = errorMessage);
+    alert("Invalid Input");
+    clear();
   }
 };
 
@@ -74,13 +75,8 @@ const checkOperator = function (operator) {
   }
 };
 
-const afterErrorHandler = function (value) {
-  if (displayInput.value === "Error") {
-    return (displayInput.value = value);
-  } else {
-    document.getElementById("btnEq").disabled = false;
-    return (displayInput.value += value);
-  }
+const addKeyPress = function (value) {
+  return (displayInput.value += value);
 };
 
 const main = function () {
@@ -110,7 +106,7 @@ function buttonPress() {
       ) {
         checkOperator(inputValue);
       } else {
-        afterErrorHandler(inputValue);
+        addKeyPress(inputValue);
       }
     });
   });
@@ -121,7 +117,7 @@ function keyPress() {
     let key = e.key;
 
     if (key >= "0" && key <= "9") {
-      afterErrorHandler(key);
+      addKeyPress(key);
     } else if (key === "+" || key === "-" || key === "*" || key === "/") {
       checkOperator(key);
     } else if (key === ".") {
@@ -133,7 +129,7 @@ function keyPress() {
     } else if (e.shiftKey === true) {
       if (key === "(" || key === ")") {
         e.preventDefault();
-        afterErrorHandler(key);
+        addKeyPress(key);
       }
     } else {
       if (displayInput.value === "Error") {
