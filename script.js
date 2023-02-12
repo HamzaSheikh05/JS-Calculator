@@ -62,15 +62,11 @@ const checkForDecimal = function () {
 };
 
 const checkOperator = function (operator) {
-  if (displayInput.value === "Error") {
-    return (displayInput.value = operator);
+  let lastVal = displayInput.value.slice(-1);
+  if (lastVal == "+" || lastVal == "-" || lastVal == "*" || lastVal == "/") {
+    return;
   } else {
-    let lastVal = displayInput.value.slice(-1);
-    if (lastVal == "+" || lastVal == "-" || lastVal == "*" || lastVal == "/") {
-      return;
-    } else {
-      displayInput.value += operator;
-    }
+    displayInput.value += operator;
   }
 };
 
@@ -129,10 +125,6 @@ function keyPress() {
       if (key === "(" || key === ")") {
         e.preventDefault();
         addKey(key);
-      }
-    } else {
-      if (displayInput.value === "Error") {
-        return (displayInput.value = key);
       }
     }
   });
