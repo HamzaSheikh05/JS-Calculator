@@ -5,7 +5,6 @@ let clearBtn = document.querySelector(".clear");
 let decimalPoint = document.querySelector(".decimal");
 let inputValue = "";
 let allowDecimal = true;
-const errorMessage = "Error";
 
 const clear = function () {
   allowDecimal = true;
@@ -27,8 +26,8 @@ const errorHandler = function () {
     displayInput.value === "-Infinity" ||
     displayInput.value === "Error"
   ) {
-    alert("Syntax Error");
-    clear();
+    displayInput.value = "Error";
+    setTimeout(() => clear(), 500);
   }
 };
 
