@@ -102,26 +102,28 @@ function buttonPress() {
       ) {
         checkOperator(inputValue);
       } else {
-        if ( displayInput.value === "0"){
-          return;          
-        } else {
-        addKey(inputValue);
-        }
+        removeZeros(inputValue);
       }
     });
   });
 }
+
+
+function removeZeros(input){  
+  if ( displayInput.value === "0"){
+    return displayInput.value = input;
+  } else {
+  return addKey(input);
+  }  
+}
+
 
 function keyPress() {
   document.addEventListener("keydown", function (e) {
     let key = e.key;
 
     if (key >= "0" && key <= "9") {
-      if (displayInput.value === "0"){
-        return;          
-      } else {
-      addKey(key);
-      }      
+      removeZeros(key);
     } else if (key === "+" || key === "-" || key === "*" || key === "/") {
       checkOperator(key);
     } else if (key === ".") {
