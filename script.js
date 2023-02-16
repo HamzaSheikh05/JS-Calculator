@@ -27,7 +27,7 @@ const errorHandler = function () {
     displayInput.value === "Error"
   ) {
     displayInput.value = "Error";
-    setTimeout(() => clear(), 500);
+    setTimeout(() => clear(), 1500);
   }
 };
 
@@ -36,7 +36,7 @@ const operate = function () {
   if (Number.isInteger(result)) {
     return (displayInput.value = result);
   } else {
-    result = parseFloat(result).toFixed(2);
+    result = parseFloat(result).toFixed(4);
     displayInput.value = result;
   }
   errorHandler();
@@ -64,7 +64,11 @@ const checkForDecimal = function () {
 const checkOperator = function (operator) {
   let lastVal = displayInput.value.slice(-1);
   if (lastVal == "+" || lastVal == "-" || lastVal == "*" || lastVal == "/") {
-    return;
+    displayInput.value = displayInput.value.substring(
+      0,
+      displayInput.value.length - 1
+    );
+    displayInput.value += operator;
   } else {
     displayInput.value += operator;
   }
@@ -101,10 +105,18 @@ function buttonPress() {
       ) {
         checkOperator(inputValue);
       } else {
-        addKey(inputValue);
+        removeZeros(inputValue);
       }
     });
   });
+}
+
+function removeZeros(input) {
+  if (displayInput.value === "0") {
+    return (displayInput.value = input);
+  } else {
+    return addKey(input);
+  }
 }
 
 function keyPress() {
@@ -112,7 +124,7 @@ function keyPress() {
     let key = e.key;
 
     if (key >= "0" && key <= "9") {
-      addKey(key);
+      removeZeros(key);
     } else if (key === "+" || key === "-" || key === "*" || key === "/") {
       checkOperator(key);
     } else if (key === ".") {
